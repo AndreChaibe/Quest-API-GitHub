@@ -21,8 +21,8 @@ const screen = {
     let repositoriesItens = ""
 
     user.events.forEach(event => {
-      if (event.type === "PushEvent") eventsItens += `<li>${event.repo.name}  - <span>${event.payload.commits[0].message}</span></li>`
-      else eventsItens += `<li>${event.repo.name}  - <span>Sem mensagem de commit</span></li>`
+      if (event.type === "PushEvent" && event.payload.commits && event.payload.commits.length > 0) eventsItens += `<li>${event.repo.name} - <span>${event.payload.commits[0].message}</span></li>`
+      else if (event.type === "PushEvent") eventsItens += `<li>${event.repo.name} - <span>Push sem mensagem de commit</span></li>`
     });
 
     user.repositories.forEach(repo => {
@@ -42,7 +42,7 @@ const screen = {
                                                                   <h2>Eventos do usuário</h2>
                                                                   <ul>${eventsItens}</ul>
                                                                <div>`
-     else this.userProfile.innerHTML += `<h3>Sem Eventos ❌</h3>`
+    else this.userProfile.innerHTML += `<h3>Sem Eventos ❌</h3>`
 
     if (user.repositories.length > 0) this.userProfile.innerHTML += `<section class="repositories">
                                                                         <h2>Repositórios</h2>
